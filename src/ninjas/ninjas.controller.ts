@@ -7,44 +7,33 @@ import { UpdateNinjaDto } from './dto/update-ninja.dto';
 export class NinjasController {
     constructor(private readonly ninjasService: NinjasService) { }
 
-    // GET  /ninjas?type=fast --> /ninjas
+    // GET  /ninjas?weapon=fast --> /ninjas
     @Get()
-    getNinjas(@Query('type') type: string) {
-        return [{
-            type
-        }];
+    getNinjas(@Query('weapon') weapon: string) {
+        return this.ninjasService.getNinjas(weapon);
     }
 
     // GET /ninjas/:id --> /ninjas/:id
     @Get(":id")
     getNinja(@Param('id') id: string) {
-        return {
-            id
-        };
+        return this.ninjasService.getNinja(parseInt(id));
     }
 
     // POST /ninjas --> /ninjas
     @Post()
     createNinja(@Body() createNinjaDto: CreateNinjaDto) {
-        return {
-            name: createNinjaDto.name,
-        };
+        return this.ninjasService.createNinja(createNinjaDto);
     }
 
     // PUT /ninjas/: --> {}
     @Put(":id")
     updateNinja(@Param('id') id: string, @Body() updateNinjaDto: UpdateNinjaDto) {
-        return {
-            id,
-            name: updateNinjaDto.name,
-        };
+        return this.ninjasService.updateNinja(parseInt(id), updateNinjaDto);
     }
 
     // DELETE /ninjas/:id --> {}
     @Delete(":id")
     deleteNinja(@Param('id') id: string) {
-        return {
-            id
-        };
+        return this.ninjasService.deleteNinja(parseInt(id));
     }
 }
