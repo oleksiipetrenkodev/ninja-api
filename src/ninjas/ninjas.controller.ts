@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards, ValidationPipe } from '@nestjs/common';
 import { NinjasService } from './ninjas.service';
 import { CreateNinjaDto } from './dto/create-ninja.dto';
 import { UpdateNinjaDto } from './dto/update-ninja.dto';
 import { ParseIntPipe } from '@nestjs/common';
+import { BeltGuard } from '../belt/belt.guard';
 
 @Controller('ninjas')
 export class NinjasController {
@@ -22,6 +23,7 @@ export class NinjasController {
 
     // POST /ninjas --> /ninjas
     @Post()
+    @UseGuards(BeltGuard)
     createNinja(@Body(new ValidationPipe()) createNinjaDto: CreateNinjaDto) {
         return this.ninjasService.createNinja(createNinjaDto);
     }
