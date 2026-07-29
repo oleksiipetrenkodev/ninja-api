@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, ValidationPipe } from '@nestjs/common';
 import { NinjasService } from './ninjas.service';
 import { CreateNinjaDto } from './dto/create-ninja.dto';
 import { UpdateNinjaDto } from './dto/update-ninja.dto';
+import { ParseIntPipe } from '@nestjs/common';
 
 @Controller('ninjas')
 export class NinjasController {
@@ -15,20 +16,20 @@ export class NinjasController {
 
     // GET /ninjas/:id --> /ninjas/:id
     @Get(":id")
-    getNinja(@Param('id') id: string) {
-        return this.ninjasService.getNinja(parseInt(id));
+    getNinja(@Param('id', ParseIntPipe) id: number) {
+        return this.ninjasService.getNinja(id);
     }
 
     // POST /ninjas --> /ninjas
     @Post()
-    createNinja(@Body() createNinjaDto: CreateNinjaDto) {
+    createNinja(@Body(new ValidationPipe()) createNinjaDto: CreateNinjaDto) {
         return this.ninjasService.createNinja(createNinjaDto);
     }
 
     // PUT /ninjas/: --> {}
     @Put(":id")
-    updateNinja(@Param('id') id: string, @Body() updateNinjaDto: UpdateNinjaDto) {
-        return this.ninjasService.updateNinja(parseInt(id), updateNinjaDto);
+    updateNinja(@Param('id', ParseIntPipe) id: number, @Body() updateNinjaDto: UpdateNinjaDto) {
+        return this.ninjasService.updateNinja((id), updateNinjaDto);
     }
 
     // DELETE /ninjas/:id --> {}

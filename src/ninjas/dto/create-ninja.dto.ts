@@ -1,4 +1,9 @@
+import { IsIn, MinLength } from "class-validator";
+
 export class CreateNinjaDto {
-  declare name: string;
-  declare weapon: string;
+  @MinLength(3)
+  name!: string;
+
+  @IsIn(['Sword', 'Bow', 'Nunchucks', 'Katana', 'Shuriken'])
+  weapon!: 'Sword' | 'Bow' | 'Nunchucks' | 'Katana' | 'Shuriken';
 }
